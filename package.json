@@ -1,5 +1,5 @@
 {
-  "name": "dwg",
+  "name": "directed-weighted-graph",
   "version": "1.0.0",
   "description": "A Directed Weighted Graph implementation in TypeScript",
   "main": "dist/index.js",
