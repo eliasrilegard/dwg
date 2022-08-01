@@ -25,12 +25,13 @@
   }
 
   /**
-   * Adds a vertex to the graph. Duplicates are not allowed.
+   * Adds a vertex to the graph. If a vertex already exists in the graph, it will
+   * be replaced and ALL edges attached (inbound and outgoing) will be removed.
    * @param v The vertex to be added
    * @returns The graph
    */
   addVertex(v: Vertex): DWG<Vertex, Weight> {
-    if (this.adjList.has(v)) throw new Error('Vertex already exists in the graph');
+    if (this.adjList.has(v)) this.removeVertex(v);
     this.adjList.set(v, new Map());
     return this;
   }
@@ -55,15 +56,13 @@
    * Removes the edge between the given vertices
    * @param v1 The origin vertex
    * @param v2 The destination vertex
-   * @returns The weight associated with the edge
+   * @returns `true` if the edge existed and has been removed, `false` if the edge does not exist
    */
-  removeEdge(v1: Vertex, v2: Vertex): Weight {
-    const edgeMap = this.adjList.get(v1);
-    if (!edgeMap) throw new ReferenceError('First vertex doesn\'t exist in the graph');
-    const weight = edgeMap.get(v2);
-    if (!weight) throw new ReferenceError('Second vertex doesn\'t exist in the graph');
-    edgeMap.delete(v2);
-    return weight;
+  removeEdge(v1: Vertex, v2: Vertex): boolean {
+    if (!this.adjList.has(v1)) throw new ReferenceError('First vertex doesn\'t exist in the graph');
+    if (!this.adjList.has(v2)) throw new ReferenceError('Second vertex doesn\'t exist in the graph');
+    const edgeMap = this.adjList.get(v1)!;
+    return edgeMap.delete(v2);
   }
 
   /**
@@ -72,9 +71,11 @@
    * @returns `true` if the vertex existed and has been removed, `false` if the vertex does not exist
    */
   removeVertex(v: Vertex): boolean {
-    const edgeMap = this.adjList.get(v);
-    if (!edgeMap) return false;
-    for (const destVertex of edgeMap.keys()) this.removeEdge(destVertex, v);
+    if (!this.adjList.has(v)) return false;
+    for (const [vertex, edgeMap] of this.adjList.entries()) {
+      if (vertex === v) continue;
+      edgeMap.delete(v);
+    }
     this.adjList.delete(v);
     return true;
   }
