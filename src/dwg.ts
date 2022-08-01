@@ -1,7 +1,7 @@
 /**
  * A Directed Weighted Graph implementation in TypeScript
  */
- export default class DWG<Vertex, Weight> {
+export default class DWG<Vertex, Weight> {
   private readonly adjList: Map<Vertex, Map<Vertex, Weight>>;
 
   constructor() {
@@ -76,8 +76,7 @@
       if (vertex === v) continue;
       edgeMap.delete(v);
     }
-    this.adjList.delete(v);
-    return true;
+    return this.adjList.delete(v);
   }
 
   /**
