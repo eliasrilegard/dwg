@@ -45,10 +45,10 @@
    * @returns The graph
    */
   addEdge(v1: Vertex, v2: Vertex, w: Weight): DWG<Vertex, Weight> {
-    const edgeMap = this.adjList.get(v1);
-    if (!edgeMap) throw new ReferenceError('First vertex doesn\'t exist in the graph');
+    if (!this.adjList.has(v1)) throw new ReferenceError('First vertex doesn\'t exist in the graph');
     if (!this.adjList.has(v2)) throw new ReferenceError('Second vertex doesn\'t exist in the graph');
-    edgeMap.set(v2, w); // Shouldn't be able to be undefined - TODO: verify this.
+    const edgeMap = this.adjList.get(v1)!;
+    edgeMap.set(v2, w);
     return this;
   }
 
