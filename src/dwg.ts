@@ -114,11 +114,11 @@
    * @returns The weight of the edge between the vertices
    */
   getWeight(v1: Vertex, v2: Vertex): Weight {
-    const edgeMap = this.adjList.get(v1);
-    if (!edgeMap) throw new ReferenceError('First vertex not found in the graph');
-    const weight = edgeMap.get(v2);
-    if (!weight) throw new ReferenceError('Second vertex not found in the graph');
-    return weight;
+    if (!this.adjList.has(v1)) throw new ReferenceError('First vertex doesn\'t exist in the graph');
+    if (!this.adjList.has(v2)) throw new ReferenceError('Second vertex doesn\'t exist in the graph');
+    const edgeMap = this.adjList.get(v1)!;
+    if (!edgeMap.has(v2)) throw new ReferenceError('No such edge exists in the graph');
+    return edgeMap.get(v2)!;
   }
 
   /**
