@@ -1,10 +1,12 @@
 {
   "name": "directed-weighted-graph",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A Directed Weighted Graph implementation in TypeScript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "test": "mocha -r ts-node/register 'test/**/*.ts'",
     "build": "tsc",
