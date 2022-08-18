@@ -125,8 +125,18 @@ export default class DWG<Vertex, Weight> {
    * @param v The vertex to check
    * @returns `true` if the vertex is in the graph, `false` if not
    */
-  has(v: Vertex): boolean {
+  hasVertex(v: Vertex): boolean {
     return this.adjList.has(v);
+  }
+
+  /**
+   * Returns whether the graph has an edge going from the first vertex to the second.
+   * @param v1 The vertex for which the potential edge originates from
+   * @param v2 The vertex that the potential edge connects to
+   */
+  hasEdge(v1: Vertex, v2: Vertex): boolean {
+    if (!this.adjList.has(v1) || !this.adjList.has(v2)) return false;
+    return this.adjList.get(v1)!.has(v2);
   }
 
   /**

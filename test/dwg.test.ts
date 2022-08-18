@@ -17,21 +17,30 @@ describe('Basic functionality, testing functions', () => {
   
   it('addEdge', done => {
     expect(graph.addEdge(2, 5, '2 -> 5')).to.be.an.instanceof(DWG);
-    expect(graph.addEdge(5, 2, '5 -> 2')).to.be.an.instanceof(DWG);
     expect(() => graph.addEdge(1, 2, 'foo')).to.throw('First');
     expect(() => graph.addEdge(2, 3, 'bar')).to.throw('Second');
     done();
   });
 
   it('edgeCount', done => {
-    expect(graph.edgeCount).to.equal(2);
+    expect(graph.edgeCount).to.equal(1);
     done();
   });
 
-  it('has', done => {
-    expect(graph.has(2)).to.be.true;
-    expect(graph.has(5)).to.be.true;
-    expect(graph.has(3)).to.be.false;
+  it('hasVertex', done => {
+    expect(graph.hasVertex(2)).to.be.true;
+    expect(graph.hasVertex(5)).to.be.true;
+    expect(graph.hasVertex(3)).to.be.false;
+    done();
+  });
+
+  it('hasEdge', done => {
+    expect(graph.hasEdge(2, 5)).to.be.true;
+    expect(graph.hasEdge(5, 2)).to.be.false;
+    graph.addEdge(5, 2, '5 -> 2');
+    expect(graph.hasEdge(5, 2)).to.be.true;
+    expect(graph.hasEdge(1, 2)).to.be.false;
+    expect(graph.hasEdge(2, 3)).to.be.false;
     done();
   });
 
